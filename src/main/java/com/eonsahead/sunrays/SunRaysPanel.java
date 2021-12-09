@@ -9,7 +9,8 @@ import javax.swing.JPanel;
 
 public class SunRaysPanel extends JPanel {
 
-    private static final Color BG_COLOR = new Color(248, 192, 120);
+    // TO-DO: Experiment with different colors.
+    private static final Color BG_COLOR = new Color(48, 72, 96);
     private static final Color RAYS_0 = new Color(112, 144, 236);
     private static final Color RAYS_1 = new Color(112, 236, 144);
 
@@ -22,27 +23,68 @@ public class SunRaysPanel extends JPanel {
         super.paintComponent(g);
         Graphics2D g2D = (Graphics2D) g;
 
-        Bounds world = new Bounds(-1.0, +1.0, -1.0, +1.0);
+        // TO-DO: Experiment with other values
+        // of dx and dy.
+        double dx = 0.02;
+        double dy = 0.01;
 
+        Bounds world0 = new Bounds(-1.0, +1.0, -1.0, +1.0);
+        Bounds world1 = new Bounds(-1.0 + dx, +1.0 + dx,
+                -1.0 + dy, +1.0 + dy);
+
+        // Retrieve the width and height of
+        // the panel on which we are drawing
+        // the picture.
         int w = this.getWidth();
         int h = this.getHeight();
 
-        Bounds device0 = new Bounds(0.0, w, 0.0, h);
-        
-        double dx = 8;
-        double dy = 8;
-        Bounds device1 = new Bounds( 0.0 + dx, w + dx, 0.0 + dy, h + dy );
+        Bounds device = new Bounds(0.0, w, 0.0, h);
 
-        CoordinateSystems cs0 = new CoordinateSystems(world, device0);
-        CoordinateSystems cs1 = new CoordinateSystems(world, device1);
+        CoordinateSystems cs0 = new CoordinateSystems(world0, device);
+        CoordinateSystems cs1 = new CoordinateSystems(world1, device);
 
-        SunBurst sunBurst = new SunBurst(96, 0.1, 0.8);
+        // TO-DO: Experiment with other values
+        // for numberOfRays.
+        // The values should be positive.
+        int numberOfRays = 240;
+        // TO-DO: Experiment with other values
+        // of minorRadius and majorRadius.
+        // (Both values should lie between 0.0 and 1.0.
+        // The minorRadius should be less than majorRadius.)
+        double minorRadius = 0.2;
+        double majorRadius = 0.8;
+        SunBurst sunBurst = new SunBurst(numberOfRays, 
+                minorRadius, majorRadius);
 
-        g2D.setStroke( new BasicStroke(2));
-        
+        // TO-DO: Experiment with other values
+        // for the thickness of the lines.
+        // The constructor for the BasicStroke
+        // class calls for a parameter whose
+        // type is float (not double!).
+        // To write a float literal, follow
+        // the number with the letter F.
+        // 1.5 is a double precision floating point literal.
+        // 1.5F is a single precision floating point literal.
+        float thickness = 1.5F;
+        g2D.setStroke(new BasicStroke(thickness));
+
+        // Draw two copies of the rays.
+        // TO-DO: Can you see a way to draw
+        // more than two copies of the rays?
+        // Hints: 
+        // (0) Define a variable world2 that
+        //     is like world0 and world1, but is offset
+        //     slightly from both. 
+        // (1) Define a variable cs2 that is like cs0 and cs1. 
+        // (2) Define a constant RAYS_2 that is like RAYS_0
+        //     and Rays_1.
+        // (3) Add a third pair of statements to the for
+        //     loop here. This pair of statements will look
+        //     like the existing two pairs of statements.
         for (Line2D ray : sunBurst.getRays()) {
-            g2D.setColor( RAYS_0 );
+            g2D.setColor(RAYS_0);
             g2D.draw(cs0.mapLine(ray));
+            
             g2D.setColor(RAYS_1);
             g2D.draw(cs1.mapLine(ray));
         } // for    
