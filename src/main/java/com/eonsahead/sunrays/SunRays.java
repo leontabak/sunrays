@@ -5,8 +5,10 @@ import javax.swing.JFrame;
 
 public class SunRays extends JFrame {
 
-    private static final int FRAME_WIDTH = 512;
-    private static final int FRAME_HEIGHT = 512;
+    // TO-DO: Experiment with different values
+    // for FRAME_WIDTH and FRAME_HEIGHT.
+    private static final int FRAME_WIDTH = 768;
+    private static final int FRAME_HEIGHT = 768;
     private static final String FRAME_TITLE = "Sun Rays";
 
     public SunRays() {
